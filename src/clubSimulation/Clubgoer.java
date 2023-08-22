@@ -21,8 +21,6 @@ public class Clubgoer extends Thread {
 	private boolean thirsty;
 	private boolean wantToLeave;
 
-	public static AtomicBoolean running = new AtomicBoolean(true);
-
 	private int ID; // thread ID
 
 	Clubgoer(int ID, PeopleLocation loc, int speed) {
@@ -57,11 +55,20 @@ public class Clubgoer extends Thread {
 
 	// setter
 
-	// check to see if user pressed pause button
+	public static final AtomicBoolean running = new AtomicBoolean(true);
+	public static final AtomicBoolean allowedIn = new AtomicBoolean(true);
+
+	// check to see if user pressed pause button, or if thread (person) not allowed in
 	private void checkPause() throws InterruptedException {
-		synchronized(running) {
-			while(!running.get()) {
+		synchronized (running) {
+			while (!running.get()) {
 				running.wait();
+			}
+
+			synchronized (allowedIn) {
+				while(!allowedIn.get()) {
+					allowedIn.wait();
+				}
 			}
 		}
 	}

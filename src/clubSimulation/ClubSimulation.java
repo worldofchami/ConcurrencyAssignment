@@ -17,7 +17,7 @@ public class ClubSimulation {
 	public static CountDownLatch startLatch = new CountDownLatch(1);
 
 	// TODO: change back to 20
-	static int noClubgoers = 2;
+	static int noClubgoers = 20;
 	static int frameX = 400;
 	static int frameY = 500;
 	static int yLimit = 400;
@@ -36,6 +36,14 @@ public class ClubSimulation {
 
 	private static int maxWait = 1200; // for the slowest customer
 	private static int minWait = 500; // for the fastest cutomer
+
+	public static final CyclicBarrier limit = new CyclicBarrier(max, () -> {
+		synchronized (Clubgoer.allowedIn) {
+			Clubgoer.allowedIn.set(!Clubgoer.allowedIn.get());
+
+			Clubgoer.allowedIn.notifyAll();
+		}
+	});
 
 	public static void setupGUI(int frameX, int frameY, int[] exits) {
 		// Frame initialize and dimensions
@@ -74,6 +82,18 @@ public class ClubSimulation {
 		startB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startLatch.countDown();
+
+				synchronized (limit) {
+					while(!limit.isBroken()) {
+						try {
+							limit.wait();
+						}
+
+						catch (Exception exception) {
+							System.out.println(exception.toString());
+						}
+					}
+				}
 			}
 		});
 
@@ -90,16 +110,15 @@ public class ClubSimulation {
 						Clubgoer.running.notifyAll();
 
 						pauseB.setText("Pause");
-
-						return;
 					}
 
 					// Is running, pause and notify all that it's not running
-					Clubgoer.running.set(false);
+					else {
+						Clubgoer.running.set(false);
+						pauseB.setText("Unpause");
+					}
 
 					Clubgoer.running.notifyAll();
-
-					pauseB.setText("Unpause");
 				}
 			}
 		});
@@ -138,7 +157,7 @@ public class ClubSimulation {
 		int[] exit = { 0, (int) gridY / 2 - 1 }; // once-cell wide door on left
 
 		tallys = new PeopleCounter(max); // counters for people inside and outside club
-		clubGrid = new ClubGrid(gridX, gridY, exit, tallys); // setup club with size and exitsand maximum limit for
+		clubGrid = new ClubGrid(gridX, gridY, exit, tallys); // setup club with size and exits and maximum limit for
 																// people
 		Clubgoer.club = clubGrid; // grid shared with class
 
