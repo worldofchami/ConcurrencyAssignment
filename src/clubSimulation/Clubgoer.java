@@ -64,17 +64,22 @@ public class Clubgoer extends Thread {
 			while (!running.get()) {
 				running.wait();
 			}
+		}
 
-			synchronized (allowedIn) {
-				while(!allowedIn.get()) {
-					allowedIn.wait();
-				}
+		// Over capacity,
+		// and user is not currently in room,
+		// and user has arrived at club, waiting in line...
+		// So... wait!
+		synchronized (allowedIn) {
+			while(ClubSimulation.tallys.overCapacity() && !this.myLocation.inRoom()) {
+				allowedIn.wait();
 			}
 		}
 	}
 
-	private void startSim() throws InterruptedException {
+	private void startSim() throws InterruptedException, BrokenBarrierException {
 		ClubSimulation.startLatch.await();
+//		ClubSimulation.limit.await();
 	}
 
 	// get drink at bar
@@ -202,7 +207,7 @@ public class Clubgoer extends Thread {
 			}
 			System.out.println("Thread " + this.ID + " is done");
 
-		} catch (InterruptedException e1) { // do nothing
+		} catch (InterruptedException | BrokenBarrierException e1) { // do nothing
 		}
 	}
 

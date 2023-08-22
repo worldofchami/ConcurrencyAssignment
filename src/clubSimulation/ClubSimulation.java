@@ -39,8 +39,7 @@ public class ClubSimulation {
 
 	public static final CyclicBarrier limit = new CyclicBarrier(max, () -> {
 		synchronized (Clubgoer.allowedIn) {
-			Clubgoer.allowedIn.set(!Clubgoer.allowedIn.get());
-
+			Clubgoer.allowedIn.set(true);
 			Clubgoer.allowedIn.notifyAll();
 		}
 	});
@@ -83,17 +82,31 @@ public class ClubSimulation {
 			public void actionPerformed(ActionEvent e) {
 				startLatch.countDown();
 
-				synchronized (limit) {
-					while(!limit.isBroken()) {
-						try {
-							limit.wait();
-						}
+//				synchronized (limit) {
+//					if(!tallys.overCapacity()) {
+//						try {
+//							limit.await();
+//						}
+//
+//						catch (Exception exception) {
+//							System.out.println(exception.toString());
+//						}
+//					}
+//
+////					while(!limit.isBroken()) {
+////						try {
+////							limit.wait();
+////						}
+////
+////						catch (Exception exception) {
+////							System.out.println(exception.toString());
+////						}
+////					}
+//				}
 
-						catch (Exception exception) {
-							System.out.println(exception.toString());
-						}
-					}
-				}
+//				synchronized (tallys) {
+//
+//				}
 			}
 		});
 
