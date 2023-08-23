@@ -1,7 +1,12 @@
 package clubSimulation;
 
-public class AndreTheBarman {
+public class AndreTheBarman extends Thread {
     public AndreTheBarman() {
+
+    }
+
+    @Override
+    public void run() {
 
     }
 }

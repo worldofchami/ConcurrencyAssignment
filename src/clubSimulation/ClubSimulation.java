@@ -23,7 +23,7 @@ public class ClubSimulation {
 	static int yLimit = 400;
 	static int gridX = 10; // number of x grids in club - default value if not provided on command line
 	static int gridY = 10; // number of y grids in club - default value if not provided on command line
-	static int max = 5; // max number of customers - default value if not provided on command line
+	static int max = 15; // max number of customers - default value if not provided on command line
 
 	static Clubgoer[] patrons; // array for customer threads
 	static PeopleLocation[] peopleLocations; // array to keep track of where customers are
@@ -36,13 +36,6 @@ public class ClubSimulation {
 
 	private static int maxWait = 1200; // for the slowest customer
 	private static int minWait = 500; // for the fastest cutomer
-
-	public static final CyclicBarrier limit = new CyclicBarrier(max, () -> {
-		synchronized (Clubgoer.allowedIn) {
-			Clubgoer.allowedIn.set(true);
-			Clubgoer.allowedIn.notifyAll();
-		}
-	});
 
 	public static void setupGUI(int frameX, int frameY, int[] exits) {
 		// Frame initialize and dimensions
@@ -81,32 +74,6 @@ public class ClubSimulation {
 		startB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startLatch.countDown();
-
-//				synchronized (limit) {
-//					if(!tallys.overCapacity()) {
-//						try {
-//							limit.await();
-//						}
-//
-//						catch (Exception exception) {
-//							System.out.println(exception.toString());
-//						}
-//					}
-//
-////					while(!limit.isBroken()) {
-////						try {
-////							limit.wait();
-////						}
-////
-////						catch (Exception exception) {
-////							System.out.println(exception.toString());
-////						}
-////					}
-//				}
-
-//				synchronized (tallys) {
-//
-//				}
 			}
 		});
 

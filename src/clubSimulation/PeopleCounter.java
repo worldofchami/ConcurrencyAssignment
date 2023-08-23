@@ -50,7 +50,6 @@ public class PeopleCounter {
 	synchronized public void personLeft() {
 		peopleInside.getAndDecrement();
 		peopleLeft.getAndIncrement();
-
 	}
 
 	// too many people inside

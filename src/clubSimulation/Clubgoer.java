@@ -56,30 +56,18 @@ public class Clubgoer extends Thread {
 	// setter
 
 	public static final AtomicBoolean running = new AtomicBoolean(true);
-	public static final AtomicBoolean allowedIn = new AtomicBoolean(true);
 
-	// check to see if user pressed pause button, or if thread (person) not allowed in
+	// check to see if user pressed pause button
 	private void checkPause() throws InterruptedException {
 		synchronized (running) {
 			while (!running.get()) {
 				running.wait();
 			}
 		}
-
-		// Over capacity,
-		// and user is not currently in room,
-		// and user has arrived at club, waiting in line...
-		// So... wait!
-		synchronized (allowedIn) {
-			while(ClubSimulation.tallys.overCapacity() && !this.myLocation.inRoom()) {
-				allowedIn.wait();
-			}
-		}
 	}
 
 	private void startSim() throws InterruptedException, BrokenBarrierException {
 		ClubSimulation.startLatch.await();
-//		ClubSimulation.limit.await();
 	}
 
 	// get drink at bar

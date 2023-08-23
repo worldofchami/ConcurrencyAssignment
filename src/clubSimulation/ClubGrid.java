@@ -80,9 +80,23 @@ public class ClubGrid {
 	public GridBlock enterClub(PeopleLocation myLocation) throws InterruptedException {
 		counter.personArrived(); // add to counter of people waiting
 		entrance.get(myLocation.getID());
-		counter.personEntered(); // add to counter
-		myLocation.setLocation(entrance);
-		myLocation.setInRoom(true);
+
+		// Only one thread can check & enter at a time
+		synchronized (ClubSimulation.tallys) {
+			// If club is not full, they can enter
+			if(!ClubSimulation.tallys.overCapacity()) {
+				counter.personEntered(); // add to counter
+				myLocation.setLocation(entrance);
+				myLocation.setInRoom(true);
+			}
+
+			else {
+				synchronized (entrance) {
+					entrance.wait();
+				}
+			}
+		}
+
 		return entrance;
 	}
 
