@@ -8,6 +8,8 @@ public class PeopleCounter {
 	private AtomicInteger peopleLeft; // counter for patrons who have left the club
 	private AtomicInteger maxPeople; // maximum patrons allowed in the club at one time
 
+	public static AtomicBoolean canEnter = new AtomicBoolean(false);
+
 	PeopleCounter(int max) {
 		peopleOutSide = new AtomicInteger(0);
 		peopleInside = new AtomicInteger(0);
@@ -54,8 +56,12 @@ public class PeopleCounter {
 
 	// too many people inside
 	synchronized public boolean overCapacity() {
-		if (peopleInside.get() >= maxPeople.get())
+		if (peopleInside.get() >= maxPeople.get()) {
+			canEnter.set(false);
 			return true;
+		}
+
+		canEnter.set(true);
 		return false;
 	}
 
