@@ -16,8 +16,8 @@ public class Clubgoer extends Thread {
 	private Random rand;
 	private int movingSpeed;
 
-	private PeopleLocation myLocation;
-	private boolean inRoom;
+	protected PeopleLocation myLocation;
+	protected boolean inRoom;
 	private boolean thirsty;
 	private boolean wantToLeave;
 
@@ -58,7 +58,7 @@ public class Clubgoer extends Thread {
 	public static final AtomicBoolean running = new AtomicBoolean(true);
 
 	// check to see if user pressed pause button
-	private void checkPause() throws InterruptedException {
+	protected void checkPause() throws InterruptedException {
 		synchronized (running) {
 			while (!running.get()) {
 				running.wait();
@@ -66,12 +66,12 @@ public class Clubgoer extends Thread {
 		}
 	}
 
-	private void startSim() throws InterruptedException, BrokenBarrierException {
+	protected void startSim() throws InterruptedException, BrokenBarrierException {
 		ClubSimulation.startLatch.await();
 	}
 
 	// get drink at bar
-	private void getDrink() throws InterruptedException {
+	public void getDrink() throws InterruptedException {
 		// FIX SO BARMAN GIVES THE DRINK AND IT IS NOT AUTOMATIC
 		thirsty = false;
 		System.out.println(

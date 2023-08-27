@@ -37,6 +37,8 @@ public class ClubSimulation {
 	private static int maxWait = 1200; // for the slowest customer
 	private static int minWait = 500; // for the fastest cutomer
 
+	static AndreTheBarman barman;
+
 	public static void setupGUI(int frameX, int frameY, int[] exits) {
 		// Frame initialize and dimensions
 		JFrame frame = new JFrame("club animation");
@@ -47,7 +49,7 @@ public class ClubSimulation {
 		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS));
 		g.setSize(frameX, frameY);
 
-		clubView = new ClubView(peopleLocations, clubGrid, exits);
+		clubView = new ClubView(peopleLocations, peopleLocations[noClubgoers] ,clubGrid, exits);
 		clubView.setSize(frameX, frameY);
 		g.add(clubView);
 
@@ -141,7 +143,7 @@ public class ClubSimulation {
 																// people
 		Clubgoer.club = clubGrid; // grid shared with class
 
-		peopleLocations = new PeopleLocation[noClubgoers];
+		peopleLocations = new PeopleLocation[noClubgoers+1];
 		patrons = new Clubgoer[noClubgoers];
 
 		Random rand = new Random();
@@ -152,6 +154,16 @@ public class ClubSimulation {
 			patrons[i] = new Clubgoer(i, peopleLocations[i], movingSpeed);
 		}
 
+		peopleLocations[noClubgoers] = new PeopleLocation(noClubgoers);
+
+		// Make his ID always be different
+		barman = new AndreTheBarman(noClubgoers, peopleLocations[noClubgoers], 1);
+
+		peopleLocations[noClubgoers].setArrived();
+		peopleLocations[noClubgoers].setInRoom(true);
+		GridBlock bar = new GridBlock(0, 3 ,false, true, false);
+		peopleLocations[noClubgoers].setLocation(bar);
+
 		setupGUI(frameX, frameY, exit); // Start Panel thread - for drawing animation
 		// start all the threads
 		Thread t = new Thread(clubView);
@@ -160,9 +172,12 @@ public class ClubSimulation {
 		Thread s = new Thread(counterDisplay);
 		s.start();
 
+		barman.start();
+
 		for (int i = 0; i < noClubgoers; i++) {
 			patrons[i].start();
 		}
+
 	}
 
 }

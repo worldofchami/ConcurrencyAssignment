@@ -33,7 +33,6 @@ public class PeopleLocation { // this is a separate class so don't have to acces
 
 	public void setArrived() {
 		this.arrived.set(true);
-		;
 	}
 
 	// getter and setter
