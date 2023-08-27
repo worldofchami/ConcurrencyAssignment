@@ -77,7 +77,7 @@ public class ClubSimulation {
 			}
 		});
 
-		final JButton pauseB = new JButton("Pause ");
+		final JButton pauseB = new JButton("Pause");
 
 		// add the listener to the jbutton to handle the "pressed" event
 		pauseB.addActionListener(new ActionListener() {
@@ -95,7 +95,7 @@ public class ClubSimulation {
 					// Is running, pause and notify all that it's not running
 					else {
 						Clubgoer.running.set(false);
-						pauseB.setText("Unpause");
+						pauseB.setText("Play");
 					}
 
 					Clubgoer.running.notifyAll();
