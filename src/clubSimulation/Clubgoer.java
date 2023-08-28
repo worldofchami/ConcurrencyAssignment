@@ -60,6 +60,7 @@ public class Clubgoer extends Thread {
 	// check to see if user pressed pause button
 	protected void checkPause() throws InterruptedException {
 		synchronized (running) {
+			// While not running (paused), wait
 			while (!running.get()) {
 				running.wait();
 			}
@@ -67,6 +68,7 @@ public class Clubgoer extends Thread {
 	}
 
 	protected void startSim() throws InterruptedException, BrokenBarrierException {
+		// Wait for latch to count down to 0
 		ClubSimulation.startLatch.await();
 	}
 
@@ -147,8 +149,7 @@ public class Clubgoer extends Thread {
 		try {
 			startSim();
 			checkPause();
-			// TODO: change back to 100
-			sleep(movingSpeed * (rand.nextInt(5) + 1)); // arriving takes a while
+			sleep(movingSpeed * (rand.nextInt(100) + 1)); // arriving takes a while
 			checkPause();
 			myLocation.setArrived();
 			System.out.println("Thread " + this.ID + " arrived at club"); // output for checking

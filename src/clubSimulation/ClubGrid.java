@@ -73,6 +73,7 @@ public class ClubGrid {
 		return true;
 	}
 
+	// Is this block the entrance?
 	public boolean isEntrance(GridBlock curr) {
 		return curr.getX() == entrance.getX() && curr.getY() == entrance.getY();
 	}
@@ -146,20 +147,15 @@ public class ClubGrid {
 	}
 
 	public void leaveClub(GridBlock currentBlock, PeopleLocation myLocation) {
-		// If club full, lock following block then notify
+		currentBlock.release();
+		counter.personLeft(); // add to counter
+		myLocation.setInRoom(false);
+
+		// If club full, notify only 1 thread at a time
 		if(counter.overCapacity()) {
 			synchronized (entrance) {
-				currentBlock.release();
-				counter.personLeft(); // add to counter
-				myLocation.setInRoom(false);
 				entrance.notify();
 			}
-		}
-
-		else {
-			currentBlock.release();
-			counter.personLeft();
-			myLocation.setInRoom(false);
 		}
 	}
 

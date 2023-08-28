@@ -42,13 +42,6 @@ public class GridBlock {
 		return true;
 	}
 
-	synchronized public boolean getOnBlock(int threadID) throws InterruptedException {
-		if (isOccupied >= 0)
-			return false; // space is occupied
-
-		return true;
-	}
-
 	public void release() {
 		isOccupied = -1;
 	}

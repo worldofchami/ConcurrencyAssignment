@@ -2,6 +2,6 @@
 make
 # To clean, run:
 make clean
-# To run the program
-#### Where [ARGUMENTS] are your command line argumentd
+# To run the program, run
+#### Where [ARGUMENTS] are your command line arguments
 make run ARGS="[ARGUMENTS]"

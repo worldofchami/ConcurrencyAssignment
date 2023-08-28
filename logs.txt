@@ -1,0 +1,77 @@
+commit 555413abb422e3b76bbe3860f8bb2596a4b14ad0
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Mon Aug 28 12:20:19 2023 +0200
+
+    Adding some comments
+
+commit a42c1a05a84fe83f8f6061605be92fdfe695abc9
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Mon Aug 28 10:33:00 2023 +0200
+
+    Adding README
+
+commit 52f7b33f049e44d2e285fab19baaae49090c0438
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Sun Aug 27 22:29:10 2023 +0200
+
+    Starting to implement barman
+
+commit 662a177fe2c2f013d998a4da86e7031fd8a74094
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Sun Aug 27 18:51:46 2023 +0200
+
+    Single file entry into club
+
+commit 64e76a3fdf7a362e9240c78b1dde6a526c973c17
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Wed Aug 23 11:50:21 2023 +0200
+
+    Waiting outside working
+
+commit dd2da6fb068ad481cf159f46531b029b1f116e9e
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Wed Aug 23 11:08:24 2023 +0200
+
+    Adding Makefile
+
+commit 89eb949a713e65117d4f9389723ee7a627c15199
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 19:49:50 2023 +0200
+
+    Trying to get club limit working
+
+commit 456c42d7f9001e549e6ebfbfa707b4676657a09e
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 18:20:45 2023 +0200
+
+    Fix gitignore
+
+commit 91ef17ab8845b569138875321af482fd3aa07b61
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 18:19:58 2023 +0200
+
+    Start club limit enforcing
+
+commit 9cb73c2fe7fd1c4f469e0c419dd2d0ab8d3ca94e
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 16:06:53 2023 +0200
+
+    Fixing gitignore
+
+commit 937d85c841882e078a4558f3a4012534fec16dbe
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 16:06:19 2023 +0200
+
+    Adding gitignore
+
+commit 9d0db28ce80d470f166251b1d9532ca9023de00f
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Tue Aug 22 16:03:55 2023 +0200
+
+    Pause + start buttons working
+
+commit 30d3d8302f1da5bf97e1afe3087319c544a8e402
+Author: TINO_CHAMI <TCHAMINUKA19@GMAIL.COM>
+Date:   Mon Aug 21 17:47:34 2023 +0200
+
+    Initial commit
