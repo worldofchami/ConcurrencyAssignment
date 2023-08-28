@@ -16,7 +16,6 @@ public class ClubSimulation {
 	/* LATCH TO START SIMULATION */
 	public static CountDownLatch startLatch = new CountDownLatch(1);
 
-	// TODO: change back to 20
 	static int noClubgoers = 20;
 	static int frameX = 400;
 	static int frameY = 500;
@@ -37,8 +36,6 @@ public class ClubSimulation {
 	private static int maxWait = 1200; // for the slowest customer
 	private static int minWait = 500; // for the fastest cutomer
 
-	static AndreTheBarman barman;
-
 	public static void setupGUI(int frameX, int frameY, int[] exits) {
 		// Frame initialize and dimensions
 		JFrame frame = new JFrame("club animation");
@@ -49,7 +46,7 @@ public class ClubSimulation {
 		g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS));
 		g.setSize(frameX, frameY);
 
-		clubView = new ClubView(peopleLocations, peopleLocations[noClubgoers] ,clubGrid, exits);
+		clubView = new ClubView(peopleLocations ,clubGrid, exits);
 		clubView.setSize(frameX, frameY);
 		g.add(clubView);
 
@@ -74,6 +71,7 @@ public class ClubSimulation {
 
 		// add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener() {
+			// On start button click, decrease latch countdown
 			public void actionPerformed(ActionEvent e) {
 				startLatch.countDown();
 			}
@@ -154,16 +152,6 @@ public class ClubSimulation {
 			patrons[i] = new Clubgoer(i, peopleLocations[i], movingSpeed);
 		}
 
-		peopleLocations[noClubgoers] = new PeopleLocation(noClubgoers);
-
-		// Make his ID always be different
-		barman = new AndreTheBarman(noClubgoers, peopleLocations[noClubgoers], 1);
-
-		peopleLocations[noClubgoers].setArrived();
-		peopleLocations[noClubgoers].setInRoom(true);
-		GridBlock bar = new GridBlock(0, 3 ,false, true, false);
-		peopleLocations[noClubgoers].setLocation(bar);
-
 		setupGUI(frameX, frameY, exit); // Start Panel thread - for drawing animation
 		// start all the threads
 		Thread t = new Thread(clubView);
@@ -171,8 +159,6 @@ public class ClubSimulation {
 		// Start counter thread - for updating counters
 		Thread s = new Thread(counterDisplay);
 		s.start();
-
-		barman.start();
 
 		for (int i = 0; i < noClubgoers; i++) {
 			patrons[i].start();

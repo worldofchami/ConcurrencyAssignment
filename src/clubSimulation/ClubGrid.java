@@ -61,10 +61,6 @@ public class ClubGrid {
 		return y;
 	}
 
-	public GridBlock whereEntrance() {
-		return entrance;
-	}
-
 	public boolean inGrid(int i, int j) {
 		if ((i >= x) || (j >= y) || (i < 0) || (j < 0))
 			return false;
@@ -81,20 +77,31 @@ public class ClubGrid {
 		return curr.getX() == entrance.getX() && curr.getY() == entrance.getY();
 	}
 
+	public GridBlock getEntrance() {
+		return entrance;
+	}
+
 	public GridBlock enterClub(PeopleLocation myLocation) throws InterruptedException {
+		// Arrived at entrance, incr. counter
 		counter.personArrived();
 
+		// Lock this block so only one thread can try to enter each time
 		synchronized (entrance) {
+			// Place thread on entrance
 			entrance.get(myLocation.getID());
 
+			// While club full, or entrance occupied --> wait
 			while (counter.overCapacity() || !entrance.get(myLocation.getID())) {
 				entrance.wait();
 			}
 
+			// Club not full & entrance is not occupied --> incr. counter
 			counter.personEntered();
+			// Set this patron's location to the entrance
 			myLocation.setLocation(entrance);
+			// Patron in club
 			myLocation.setInRoom(true);
-
+			// Make sure all threads aware that entrance has changed
 			entrance.notifyAll();
 		}
 
@@ -127,7 +134,9 @@ public class ClubGrid {
 		currentBlock.release(); // must release current block
 		myLocation.setLocation(newBlock);
 
+		// Lock access to block
 		synchronized (entrance) {
+			// If currentBlock is entrance, and club is not full --> notify patron/thread waiting on entrance
 			if(isEntrance(currentBlock) && !counter.overCapacity()) {
 				entrance.notify();
 			}
@@ -137,6 +146,7 @@ public class ClubGrid {
 	}
 
 	public void leaveClub(GridBlock currentBlock, PeopleLocation myLocation) {
+		// If club full, lock following block then notify
 		if(counter.overCapacity()) {
 			synchronized (entrance) {
 				currentBlock.release();

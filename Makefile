@@ -14,7 +14,6 @@ SOURCES=$(PKGDIR_SRC)/CounterDisplay.java \
           $(PKGDIR_SRC)/ClubView.java \
           $(PKGDIR_SRC)/Clubgoer.java \
           $(PKGDIR_SRC)/ClubSimulation.java \
-          $(PKGDIR_SRC)/AndreTheBarman.java
 
 CLASSES=$(patsubst $(SRCDIR)/%.java,$(BINDIR)/%.class,$(SOURCES))
 
